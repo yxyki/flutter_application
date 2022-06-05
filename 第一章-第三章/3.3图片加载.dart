@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //home: const ImageFcn(),
-      home: const MyIcon(),
+      home: const ImageFcn(),
+      //home: const MyIcon(),
     );
   }
 }
