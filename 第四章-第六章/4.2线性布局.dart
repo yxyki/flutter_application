@@ -14,13 +14,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LinearLayout(),
+      home: const LinearLayout(),
     );
   }
 }
 
 class LinearLayout extends StatelessWidget {
-  LinearLayout({Key? key}) : super(key: key);
+  const LinearLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

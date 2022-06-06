@@ -98,6 +98,7 @@ class LayoutLogPrint<T> extends StatelessWidget {
     return LayoutBuilder(builder: (_, constraints) {
       // assert在编译release版本时会被去除
       assert(() {
+        // ignore: avoid_print
         print('${tag ?? key ?? child}: $constraints');
         return true;
       }());

@@ -55,6 +55,7 @@ class Constrainedbox extends StatelessWidget {
           ConstrainedBox(
             constraints:
                 BoxConstraints(minWidth: double.infinity, minHeight: 50.0),
+            // ignore: sized_box_for_whitespace
             child: Container(
               height: 5.0,
               child: redBox,

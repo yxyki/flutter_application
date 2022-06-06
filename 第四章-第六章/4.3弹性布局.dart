@@ -14,13 +14,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FlexLayout(),
+      home: const FlexLayout(),
     );
   }
 }
 
 class FlexLayout extends StatelessWidget {
-  FlexLayout({Key? key}) : super(key: key);
+  const FlexLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class FlexLayout extends StatelessWidget {
         ));
   }
 
-  @override
+  // ignore: non_constant_identifier_names
   Widget Flexbuild(BuildContext context) {
     return Column(
       children: <Widget>[
@@ -74,7 +74,7 @@ class FlexLayout extends StatelessWidget {
                     color: Colors.red,
                   ),
                 ),
-                Spacer(
+                const Spacer(
                   flex: 1,
                 ),
                 Expanded(

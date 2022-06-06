@@ -14,13 +14,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Alignout(),
+      home: const Alignout(),
     );
   }
 }
 
 class Alignout extends StatelessWidget {
-  Alignout({Key? key}) : super(key: key);
+  const Alignout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

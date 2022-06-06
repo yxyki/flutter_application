@@ -58,7 +58,7 @@ class ClipTestRoute extends StatelessWidget {
                 widthFactor: .5, //宽度设为原来宽度一半，另一半会溢出
                 child: avatar,
               ),
-              Text(
+              const Text(
                 "你好世界",
                 style: TextStyle(color: Colors.green),
               )
@@ -75,7 +75,7 @@ class ClipTestRoute extends StatelessWidget {
                   child: avatar,
                 ),
               ),
-              Text("你好世界", style: TextStyle(color: Colors.green))
+              const Text("你好世界", style: TextStyle(color: Colors.green))
             ],
           ),
         ],
