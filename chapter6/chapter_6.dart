@@ -101,6 +101,32 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
+            ElevatedButton(
+              child: const Text("PageView"),
+              onPressed: () {
+                //导航到新路由
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return const MyPage(
+                      title: 'PageView页面切换',
+                    );
+                  }),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: const Text("TabBarView"),
+              onPressed: () {
+                //导航到新路由
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return TabViewRoute1();
+                  }),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -475,4 +501,155 @@ class _InfiniteGridViewState extends State<InfiniteGridView> {
       });
     });
   }
+}
+
+// Tab 页面
+class MyPage extends StatefulWidget {
+  const MyPage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyPageState createState() => _MyPageState();
+}
+
+class _MyPageState extends State<MyPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: PageView(
+        scrollDirection: Axis.horizontal,
+        reverse: false,
+        controller: PageController(
+          initialPage: 0,
+          viewportFraction: 1,
+          keepPage: true,
+        ),
+        physics: const BouncingScrollPhysics(),
+        pageSnapping: true,
+        onPageChanged: (index) {
+          //监听事件
+          print('index=====$index');
+        },
+        children: <Widget>[
+          Container(
+            color: Colors.grey,
+            child: const Center(
+              child: Text(
+                '第1页',
+                textScaleFactor: 4,
+                style: TextStyle(color: Colors.black, fontSize: 20.0),
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.greenAccent,
+            child: const Center(
+              child: Text(
+                '第2页',
+                textScaleFactor: 4,
+                style: TextStyle(color: Colors.black, fontSize: 20.0),
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.deepOrange,
+            child: const Center(
+              child: Text(
+                '第3页',
+                textScaleFactor: 4,
+                style: TextStyle(color: Colors.black, fontSize: 20.0),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class TabViewRoute1 extends StatefulWidget {
+  @override
+  _TabViewRoute1State createState() => _TabViewRoute1State();
+}
+
+class _TabViewRoute1State extends State<TabViewRoute1>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  List tabs = ["新闻", "历史", "图片"];
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: tabs.length, vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("App Name"),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: tabs.map((e) => Tab(text: e)).toList(),
+        ),
+      ),
+      body: TabBarView(
+        //构建
+        controller: _tabController,
+        children: tabs.map((e) {
+          return KeepAliveWrapper(
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(e, textScaleFactor: 5),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    // 释放资源
+    _tabController.dispose();
+    super.dispose();
+  }
+}
+
+class KeepAliveWrapper extends StatefulWidget {
+  const KeepAliveWrapper({
+    Key? key,
+    this.keepAlive = true,
+    required this.child,
+  }) : super(key: key);
+  final bool keepAlive;
+  final Widget child;
+
+  @override
+  _KeepAliveWrapperState createState() => _KeepAliveWrapperState();
+}
+
+class _KeepAliveWrapperState extends State<KeepAliveWrapper>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
+  }
+
+  @override
+  void didUpdateWidget(covariant KeepAliveWrapper oldWidget) {
+    if (oldWidget.keepAlive != widget.keepAlive) {
+      // keepAlive 状态需要更新，实现在 AutomaticKeepAliveClientMixin 中
+      updateKeepAlive();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
