@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
-import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(const MyApp());
@@ -49,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return const AnimatedListRoute(title: 'AnimatedListRoute');
+                    return const AnimatedListRoute();
                   }),
                 );
               },
@@ -61,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return const singleScroView(title: 'SingleListView');
+                    return const singleScroView();
                   }),
                 );
               },
@@ -73,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return const InfiniteListView(title: '无线加载列表');
+                    return const InfiniteListView();
                   }),
                 );
               },
@@ -85,7 +84,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return const ScrollNotificationTestRoute(title: '滚动监听及控制');
+                    return const ScrollNotificationTestRoute();
+                  }),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: const Text("GridView"),
+              onPressed: () {
+                //导航到新路由
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return const InfiniteGridView();
                   }),
                 );
               },
@@ -98,8 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class AnimatedListRoute extends StatefulWidget {
-  const AnimatedListRoute({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const AnimatedListRoute({Key? key}) : super(key: key);
 
   @override
   _AnimatedListRouteState createState() => _AnimatedListRouteState();
@@ -122,7 +132,7 @@ class _AnimatedListRouteState extends State<AnimatedListRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("AnimatedList")),
+      appBar: AppBar(title: const Text("AnimatedList(add and remove)")),
       body: Scrollbar(
         child: build2(context),
       ),
@@ -219,14 +229,15 @@ class _AnimatedListRouteState extends State<AnimatedListRoute> {
 
 // ignore: camel_case_types
 class singleScroView extends StatelessWidget {
-  const singleScroView({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const singleScroView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: const Text('SingleListView'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -266,15 +277,14 @@ class SingleChildScrollViewTestRoute extends StatelessWidget {
 }
 
 class InfiniteListView extends StatefulWidget {
-  const InfiniteListView({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const InfiniteListView({Key? key}) : super(key: key);
   @override
   _InfiniteListViewState createState() => _InfiniteListViewState();
 }
 
 class _InfiniteListViewState extends State<InfiniteListView> {
   static const loadingTag = "##loading##"; //表尾标记
-  var _words = <String>[loadingTag];
+  final _words = <String>[loadingTag];
 
   @override
   void initState() {
@@ -285,7 +295,7 @@ class _InfiniteListViewState extends State<InfiniteListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("AnimatedList")),
+      appBar: AppBar(title: const Text("无限加载列表")),
       body: Scrollbar(
         child: build2(context),
       ),
@@ -346,9 +356,8 @@ class _InfiniteListViewState extends State<InfiniteListView> {
 }
 
 class ScrollNotificationTestRoute extends StatefulWidget {
-  const ScrollNotificationTestRoute({Key? key, required this.title})
-      : super(key: key);
-  final String title;
+  const ScrollNotificationTestRoute({Key? key}) : super(key: key);
+
   @override
   _ScrollNotificationTestRouteState createState() =>
       _ScrollNotificationTestRouteState();
@@ -402,5 +411,68 @@ class _ScrollNotificationTestRouteState
         ),
       ),
     );
+  }
+}
+
+class InfiniteGridView extends StatefulWidget {
+  const InfiniteGridView({Key? key}) : super(key: key);
+
+  @override
+  _InfiniteGridViewState createState() => _InfiniteGridViewState();
+}
+
+class _InfiniteGridViewState extends State<InfiniteGridView> {
+  final List<IconData> _icons = []; //保存Icon数据
+
+  @override
+  void initState() {
+    super.initState();
+    // 初始化数据
+    _retrieveIcons();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("网格布局"),
+        centerTitle: true,
+      ),
+      body: Container(child: Gridbuild(context)),
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  Widget Gridbuild(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, //每行三列
+        childAspectRatio: 1.0, //显示区域宽高相等
+      ),
+      itemCount: _icons.length,
+      itemBuilder: (context, index) {
+        //如果显示到最后一个并且Icon总数小于200时继续获取数据
+        if (index == _icons.length - 1 && _icons.length < 200) {
+          _retrieveIcons();
+        }
+        return Icon(_icons[index]);
+      },
+    );
+  }
+
+  //模拟异步获取数据
+  void _retrieveIcons() {
+    Future.delayed(const Duration(milliseconds: 200)).then((e) {
+      setState(() {
+        _icons.addAll([
+          Icons.ac_unit,
+          Icons.airport_shuttle,
+          Icons.all_inclusive,
+          Icons.beach_access,
+          Icons.cake,
+          Icons.free_breakfast,
+        ]);
+      });
+    });
   }
 }
