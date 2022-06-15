@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: const MyHomePage(title: 'Flutter Home'),
+      home: const MyHomePage(title: 'Flutter Home---可滚动组件'),
     );
   }
 }
