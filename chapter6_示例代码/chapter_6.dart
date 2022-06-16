@@ -591,7 +591,7 @@ class _TabViewRoute1State extends State<TabViewRoute1>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("App Name"),
+        title: const Text("App Name"),
         bottom: TabBar(
           controller: _tabController,
           tabs: tabs.map((e) => Tab(text: e)).toList(),

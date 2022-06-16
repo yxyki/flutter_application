@@ -14,12 +14,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ScaffoldRoute(),
+      home: const ScaffoldRoute(),
     );
   }
 }
 
 class ScaffoldRoute extends StatefulWidget {
+  const ScaffoldRoute({Key? key}) : super(key: key);
+
   @override
   _ScaffoldRouteState createState() => _ScaffoldRouteState();
 }
@@ -129,10 +131,11 @@ class MyDrawer extends StatelessWidget {
   }
 }
 
+// ignore: use_key_in_widget_constructors
 class NewRoute extends StatelessWidget {
   final _floatingActioButoon = FloatingActionButton(
     onPressed: () {},
-    child: Icon(Icons.add),
+    child: const Icon(Icons.add),
     elevation: 0.0,
     backgroundColor: Colors.greenAccent,
     //修改为矩形
